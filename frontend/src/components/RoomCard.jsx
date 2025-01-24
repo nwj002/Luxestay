@@ -3,46 +3,61 @@ import { useNavigate } from "react-router-dom";
 
 const RoomCard = ({ room }) => {
     const navigate = useNavigate();
-    const { _id, roomName, hotelName, price, location, description, noOfBeds, image } = room;
+    const { _id, roomName, hotelName, price, location, noOfBeds, image } = room;
 
     const styles = {
         card: {
-            width: "22%",
-            backgroundColor: "#fff",
+            width: "300px",
+            backgroundColor: "#FFF7ED",
             padding: "15px",
-            borderRadius: "8px",
+            borderRadius: "12px",
             textAlign: "center",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
             transition: "transform 0.3s ease",
             cursor: "pointer",
+            margin: "20px auto",
         },
         image: {
             width: "100%",
-            height: "150px",
+            height: "200px",
             objectFit: "cover",
             borderRadius: "8px",
+            marginBottom: "15px",
         },
         title: {
-            fontSize: "18px",
-            fontWeight: "bold",
-            margin: "10px 0",
+            fontSize: "20px",
+            fontWeight: "600",
+            marginBottom: "10px",
+            color: "#2C2C2C",
         },
-        description: {
+        subtitle: {
+            fontSize: "16px",
+            color: "#555",
+            marginBottom: "8px",
+            textAlign: "left",
+        },
+        location: {
             fontSize: "14px",
             color: "#555",
-            marginBottom: "10px",
+            marginBottom: "15px",
+            textAlign: "left",
         },
-        info: {
-            fontSize: "14px",
+        infoSection: {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            marginTop: "10px",
+            fontSize: "16px",
+            fontWeight: "500",
+            color: "#2C2C2C",
         },
         iconText: {
             display: "flex",
             alignItems: "center",
             gap: "5px",
+        },
+        price: {
+            color: "#2C7A1F",
+            fontWeight: "bold",
         },
     };
 
@@ -58,14 +73,16 @@ const RoomCard = ({ room }) => {
             onClick={handleCardClick}
         >
             <img src={`http://localhost:5000/rooms/${image}`} alt={roomName} style={styles.image} />
-            <h4 style={styles.title}>{roomName}</h4>
-            <p style={styles.description}>{description}</p>
-            <p style={styles.description}>
-                {hotelName}, {location}
+            <h4 style={styles.title}>{hotelName}</h4>
+            <p style={styles.subtitle}>
+                <strong>Room Type:</strong> {roomName}
             </p>
-            <div style={styles.info}>
+            <p style={styles.location}>
+                <strong>Location:</strong> {location}
+            </p>
+            <div style={styles.infoSection}>
                 <div style={styles.iconText}>🛏️ {noOfBeds} Beds</div>
-                <div style={styles.iconText}>Price: NPR {price}</div>
+                <div style={styles.price}>NPR {price}</div>
             </div>
         </div>
     );

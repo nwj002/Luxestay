@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import Footer from "../components/Footer";
 
 const AddRoom = () => {
     const [formData, setFormData] = useState({
@@ -135,75 +136,79 @@ const AddRoom = () => {
     };
 
     return (
-        <div style={styles.container}>
-            <h1>Add Room</h1>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="roomName"
-                    placeholder="Room Name"
-                    value={formData.roomName}
-                    onChange={handleChange}
-                    required
-                    style={styles.input}
-                />
-                <input
-                    type="text"
-                    name="hotelName"
-                    placeholder="Hotel Name"
-                    value={formData.hotelName}
-                    onChange={handleChange}
-                    required
-                    style={styles.input}
-                />
-                <input
-                    type="number"
-                    name="price"
-                    placeholder="Price"
-                    value={formData.price}
-                    onChange={handleChange}
-                    required
-                    style={styles.input}
-                />
-                <input
-                    type="text"
-                    name="location"
-                    placeholder="Location"
-                    value={formData.location}
-                    onChange={handleChange}
-                    required
-                    style={styles.input}
-                />
-                <textarea
-                    name="description"
-                    placeholder="Description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    required
-                    style={styles.textarea}
-                />
-                <input
-                    type="number"
-                    name="noOfBeds"
-                    placeholder="Number of Beds"
-                    value={formData.noOfBeds}
-                    onChange={handleChange}
-                    required
-                    style={styles.input}
-                />
-                <input
-                    type="file"
-                    name="image"
-                    onChange={handleImageChange}
-                    accept="image/*"
-                    required
-                    style={styles.input}
-                />
-                <button type="submit" disabled={loading} style={styles.button}>
-                    {loading ? "Adding Room..." : "Add Room"}
-                </button>
-            </form>
-        </div>
+        <>
+            <div style={styles.container}>
+                <h1>Add Room</h1>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        name="roomName"
+                        placeholder="Room Type"
+                        value={formData.roomName}
+                        onChange={handleChange}
+                        required
+                        style={styles.input}
+                    />
+                    <input
+                        type="text"
+                        name="hotelName"
+                        placeholder="Hotel Name"
+                        value={formData.hotelName}
+                        onChange={handleChange}
+                        required
+                        style={styles.input}
+                    />
+                    <input
+                        type="number"
+                        name="price"
+                        placeholder="Price"
+                        value={formData.price}
+                        onChange={handleChange}
+                        required
+                        style={styles.input}
+                    />
+                    <input
+                        type="text"
+                        name="location"
+                        placeholder="Location"
+                        value={formData.location}
+                        onChange={handleChange}
+                        required
+                        style={styles.input}
+                    />
+                    <textarea
+                        name="description"
+                        placeholder="Description"
+                        value={formData.description}
+                        onChange={handleChange}
+                        required
+                        style={styles.textarea}
+                    />
+                    <input
+                        type="number"
+                        name="noOfBeds"
+                        placeholder="Number of Beds"
+                        value={formData.noOfBeds}
+                        onChange={handleChange}
+                        required
+                        style={styles.input}
+                    />
+                    <input
+                        type="file"
+                        name="image"
+                        onChange={handleImageChange}
+                        accept="image/*"
+                        required
+                        style={styles.input}
+                    />
+                    <button type="submit" disabled={loading} style={styles.button}>
+                        {loading ? "Adding Room..." : "Add Room"}
+                    </button>
+                </form>
+            </div>
+            <Footer />
+
+        </>
     );
 };
 

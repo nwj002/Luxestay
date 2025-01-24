@@ -72,63 +72,181 @@ const Homepage = () => {
 
     return (
         <>
-            <div className="dashboard" style={{ backgroundColor: '#FFF2E5', minHeight: '100vh' }}>
+            <div className="dashboard" style={{ backgroundColor: '#FFFFFFFF', minHeight: '100vh' }}>
 
                 {/* First Section */}
-                <div className="section-one mt-5" style={{ marginBottom: '40px', display: 'flex', justifyContent: 'center' }}>
-                    <div className="container d-flex justify-content-between" style={{ width: '90%', gap: '30px' }}>
-                        {/* Left Container (65%) */}
-                        <div className="left-container" style={{ width: '65%', textAlign: 'center' }}>
-                            <h2 style={{ fontSize: '32px', fontWeight: '600' }}>Featured Rooms</h2>
-                            <p style={{ fontSize: '16px', margin: '10px 0 20px' }}>
-                                Discover the best rooms for your stay at Luxestay. Whether you're looking for comfort, luxury, or convenience, our featured rooms cater to all your needs.
+                <div
+                    className="section-one"
+                    style={{ marginBottom: "40px", display: "flex", justifyContent: "center" }}
+                >
+                    <div
+                        className="container d-flex justify-content-between"
+                        style={{
+                            width: "90%",
+                            gap: "30px",
+                            padding: "5px",
+                            backgroundColor: "#FFFFFFFF",
+                            borderRadius: "10px",
+                        }}
+                    >
+                        {/* Left Container */}
+                        <div className="left-container" style={{ width: "60%", textAlign: "left" }}>
+                            <h1
+                                style={{
+                                    fontSize: "36px",
+                                    fontWeight: "bold",
+                                    color: "#13361C",
+                                    marginBottom: "10px",
+                                }}
+                            >
+                                The Perfect Combination of <br /> Luxury and Comfort
+                            </h1>
+                            <div style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}>
+                                <p
+                                    style={{
+                                        fontSize: "18px",
+                                        fontWeight: "bold",
+                                        color: "#555",
+                                        marginBottom: "0",
+                                        marginRight: "10px",
+                                    }}
+                                >
+                                    Let’s get acquainted !
+                                </p>
+                                <hr style={{ flex: "1", borderTop: "2px solid #CC9A48" }} />
+                            </div>
+                            <p
+                                style={{
+                                    fontSize: "16px",
+                                    color: "#777",
+                                    lineHeight: "1.6",
+                                    marginBottom: "20px",
+                                }}
+                            >
+                                Luxestay is your go-to platform for booking the perfect hotel rooms with a blend
+                                of luxury and comfort. Discover unparalleled experiences tailored to your needs
+                                with just a few clicks. Our curated collection ensures you find the perfect stay
+                                for every occasion. Whether you’re planning a family vacation, a romantic getaway,
+                                or a business trip, we have you covered. Book your next stay with Luxestay and
+                                experience the best of hospitality. Luxestay is your go-to platform for booking the perfect hotel rooms with a blend
+                                of luxury and comfort. Discover unparalleled experiences tailored to your needs
+                                with just a few clicks. Our curated collection ensures you find the perfect stay
+                                for every occasion. Whether you’re planning a family vacation, a romantic getaway,
+                                or a business trip, we have you covered.
+
                             </p>
-                            <div className="product-cards" style={{ display: 'flex', justifyContent: 'space-between', gap: '20px' }}>
-                                {rooms.slice(0, 2).map((room) => (
-                                    <div
-                                        key={room._id}
-                                        className="product-card"
-                                        style={{
-                                            width: '48%',
-                                            backgroundColor: '#fff',
-                                            padding: '15px',
-                                            borderRadius: '8px',
-                                            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                                            textAlign: 'center',
-                                            cursor: 'pointer',
-                                        }}
-                                        onClick={() => navigate(`/room/${room._id}`)} // Navigate to the room details page
-                                    >
-                                        <img
-                                            src={`http://localhost:5000/rooms/${room.image}`}
-                                            alt={room.roomName}
-                                            style={{ width: '100%', height: '120px', objectFit: 'cover', borderRadius: '8px' }}
-                                        />
-                                        <h4 style={{ marginTop: '10px' }}>{room.roomName}</h4>
-                                        <p>{room.description}</p>
-                                        <p style={{ fontWeight: 'bold', marginTop: '10px' }}>Price: NPR {room.price}</p>
+                            <button
+                                onClick={() => navigate("/about")}
+                                style={{
+                                    backgroundColor: "#CC9A48",
+                                    color: "white",
+                                    padding: "10px 20px",
+                                    border: "none",
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                    fontSize: "16px",
+                                    fontWeight: "bold",
+                                }}
+                            >
+                                More →
+                            </button>
+                            <h4 style={{ marginTop: "20px", fontSize: "20px", fontWeight: "bold" }}>
+                                Featured Rooms
+                            </h4>
+
+                            {/* Featured Hotels */}
+                            <div
+                                className="featured-hotels"
+                                style={{
+                                    marginTop: "20px",
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    gap: "15px",
+                                }}
+                            >
+                                {rooms.slice(0, 3).map((room, index) => (
+                                    <div key={index} style={{ width: "48%" }}>
+                                        <div
+                                            style={{
+                                                position: "relative",
+                                                width: "100%",
+                                                height: "150px",
+                                                borderRadius: "8px",
+                                                overflow: "hidden",
+                                            }}
+                                        >
+                                            <img
+                                                src={`http://localhost:5000/rooms/${room.image}`}
+                                                alt={room.hotelName}
+                                                style={{
+                                                    width: "100%",
+                                                    height: "100%",
+                                                    objectFit: "cover",
+                                                }}
+                                            />
+                                            <p
+                                                style={{
+                                                    position: "absolute",
+                                                    top: "5px",
+                                                    left: "10px",
+                                                    color: "#FFD700",
+                                                    fontSize: "14px",
+                                                    fontWeight: "bold",
+                                                }}
+                                            >
+                                                {room.location}
+                                            </p>
+                                            <p
+                                                style={{
+                                                    position: "absolute",
+                                                    bottom: "5px",
+                                                    left: "10px",
+                                                    color: "#FF6347",
+                                                    fontSize: "16px",
+                                                    fontWeight: "bold",
+                                                }}
+                                            >
+                                                {room.hotelName}
+                                            </p>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
-
                         </div>
 
-                        {/* Right Container (35%) */}
+                        {/* Right Container */}
                         <div
                             className="right-container"
                             style={{
-                                width: '35%',
-                                textAlign: 'center',
-                                backgroundColor: '#fff',
-                                padding: '20px',
-                                borderRadius: '8px',
-                                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                                width: "35%",
+                                textAlign: "center",
+                                backgroundColor: "#FFF",
+                                padding: "20px",
+                                borderRadius: "10px",
+                                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                             }}
                         >
-                            <h3 style={{ fontSize: '24px', fontWeight: '600' }}>Find a Hotel</h3>
+                            <h3
+                                style={{
+                                    fontSize: "24px",
+                                    fontWeight: "bold",
+                                    color: "#13361C",
+                                    marginBottom: "15px",
+                                }}
+                            >
+                                Find Hotel
+                            </h3>
                             <form>
-                                <div className="form-group" style={{ marginBottom: '1rem' }}>
-                                    <label htmlFor="location" style={{ fontSize: '16px', fontWeight: '500' }}>
+                                <div className="form-group" style={{ marginBottom: "15px" }}>
+                                    <label
+                                        htmlFor="location"
+                                        style={{
+                                            fontSize: "16px",
+                                            fontWeight: "500",
+                                            marginBottom: "5px",
+                                            display: "block",
+                                        }}
+                                    >
                                         Location
                                     </label>
                                     <input
@@ -137,85 +255,124 @@ const Homepage = () => {
                                         name="location"
                                         value={formData.location}
                                         onChange={handleChange}
-                                        className="form-control"
+                                        placeholder="Please enter a location"
                                         style={{
-                                            width: '100%',
-                                            padding: '8px',
-                                            borderRadius: '5px',
-                                            border: '1px solid #ccc',
+                                            width: "100%",
+                                            padding: "10px",
+                                            borderRadius: "5px",
+                                            border: "1px solid #ccc",
                                         }}
                                     />
-                                    {errors.location && <span style={{ color: 'red', fontSize: '12px' }}>{errors.location}</span>}
+                                    {errors.location && (
+                                        <span style={{ color: "red", fontSize: "10px" }}>{errors.location}</span>
+                                    )}
                                 </div>
 
-                                <div className="form-group" style={{ marginBottom: '1rem' }}>
-                                    <label htmlFor="checkin" style={{ fontSize: '16px', fontWeight: '500' }}>
+                                <div className="form-group" style={{ marginBottom: "15px" }}>
+                                    <label
+                                        htmlFor="checkin"
+                                        style={{
+                                            fontSize: "16px",
+                                            fontWeight: "500",
+                                            marginBottom: "5px",
+                                            display: "block",
+                                        }}
+                                    >
                                         Check-in
                                     </label>
                                     <input
                                         type="date"
                                         id="checkin"
                                         name="checkin"
-                                        value={formData.checkin}
+                                        value={formData.checkin || new Date().toISOString().split("T")[0]}
                                         onChange={handleChange}
-                                        className="form-control"
                                         style={{
-                                            width: '100%',
-                                            padding: '8px',
-                                            borderRadius: '5px',
-                                            border: '1px solid #ccc',
+                                            width: "100%",
+                                            padding: "10px",
+                                            borderRadius: "5px",
+                                            border: "1px solid #ccc",
                                         }}
                                     />
-                                    {errors.checkin && <span style={{ color: 'red', fontSize: '12px' }}>{errors.checkin}</span>}
                                 </div>
 
-                                <div className="form-group" style={{ marginBottom: '1rem' }}>
-                                    <label htmlFor="duration" style={{ fontSize: '16px', fontWeight: '500' }}>
+                                <div className="form-group" style={{ marginBottom: "15px" }}>
+                                    <label
+                                        htmlFor="duration"
+                                        style={{
+                                            fontSize: "16px",
+                                            fontWeight: "500",
+                                            marginBottom: "5px",
+                                            display: "block",
+                                        }}
+                                    >
                                         Duration
                                     </label>
                                     <input
                                         type="number"
                                         id="duration"
                                         name="duration"
-                                        value={formData.duration}
+                                        value={formData.duration || 1}
                                         onChange={handleChange}
-                                        className="form-control"
-                                        placeholder="Duration in days"
+                                        placeholder="Number of days"
                                         style={{
-                                            width: '100%',
-                                            padding: '8px',
-                                            borderRadius: '5px',
-                                            border: '1px solid #ccc',
+                                            width: "100%",
+                                            padding: "10px",
+                                            borderRadius: "5px",
+                                            border: "1px solid #ccc",
                                         }}
                                     />
-                                    {errors.duration && <span style={{ color: 'red', fontSize: '12px' }}>{errors.duration}</span>}
                                 </div>
 
-                                <div className="form-group" style={{ marginBottom: '1rem', textAlign: 'center' }}>
-                                    <button
-                                        type="submit"
-                                        onClick={handleSearch}
+                                <div className="form-group" style={{ marginBottom: "15px" }}>
+                                    <label
+                                        htmlFor="guests"
                                         style={{
-                                            backgroundColor: '#4caf50',
-                                            color: 'white',
-                                            padding: '10px 20px',
-                                            border: 'none',
-                                            borderRadius: '5px',
-                                            cursor: 'pointer',
-                                            fontSize: '16px',
-                                            fontWeight: 'bold',
-                                            transition: 'background-color 0.3s ease',
+                                            fontSize: "16px",
+                                            fontWeight: "500",
+                                            marginBottom: "5px",
+                                            display: "block",
                                         }}
-                                        onMouseEnter={(e) => (e.target.style.backgroundColor = '#45a049')}
-                                        onMouseLeave={(e) => (e.target.style.backgroundColor = '#4caf50')}
                                     >
-                                        Search
-                                    </button>
+                                        Guests
+                                    </label>
+                                    <input
+                                        type="number"
+                                        id="guests"
+                                        name="guests"
+                                        value={formData.guests || 1}
+                                        onChange={handleChange}
+                                        placeholder="Number of guests"
+                                        style={{
+                                            width: "100%",
+                                            padding: "10px",
+                                            borderRadius: "5px",
+                                            border: "1px solid #ccc",
+                                        }}
+                                    />
                                 </div>
+
+                                <button
+                                    type="submit"
+                                    onClick={handleSearch}
+                                    style={{
+                                        backgroundColor: "#CC9A48",
+                                        color: "white",
+                                        padding: "10px 20px",
+                                        border: "none",
+                                        borderRadius: "5px",
+                                        cursor: "pointer",
+                                        fontSize: "16px",
+                                        fontWeight: "bold",
+                                    }}
+                                >
+                                    Search Hotels
+                                </button>
                             </form>
                         </div>
                     </div>
                 </div>
+
+
 
                 {/* Second Section (About Us) */}
                 <div
