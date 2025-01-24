@@ -1,31 +1,30 @@
-import axios from "axios"; // Replace with `loginUserApi` if it's an abstraction for axios
-import React, { useState } from 'react';
+import axios from "axios";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
-import './Login.css';
+import "react-toastify/dist/ReactToastify.css";
+import Footer from "../components/Footer";
 
 const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
 
     const validate = () => {
         let isValid = true;
 
-        // Email validation
-        if (email.trim() === '' || !email.includes('@')) {
-            setEmailError('Email is required and must be valid');
+        if (email.trim() === "" || !email.includes("@")) {
+            setEmailError("Email is required and must be valid");
             isValid = false;
         } else {
-            setEmailError('');
+            setEmailError("");
         }
 
-        // Password validation
-        if (password.trim() === '') {
-            setPasswordError('Password is required');
+        if (password.trim() === "") {
+            setPasswordError("Password is required");
             isValid = false;
         } else {
-            setPasswordError('');
+            setPasswordError("");
         }
 
         return isValid;
@@ -34,82 +33,249 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Perform validation
         if (!validate()) return;
 
-        // Prepare the request payload
-        const data = {
-            email,
-            password,
-        };
+        const data = { email, password };
 
         try {
-            const response = await axios.post('http://localhost:5000/api/users/login', data);
+            const response = await axios.post(
+                "http://localhost:5000/api/users/login",
+                data
+            );
             if (response.status === 200) {
-                // Success handling
-                toast.success(response.data.message);
-                localStorage.setItem('token', response.data.token);
-                localStorage.setItem('userData', JSON.stringify(response.data.userData));
-                window.location.href = '/'; // Redirect to the homepage
-            } else {
-                toast.error(response.data.message);
+                // Toast message for successful login
+                toast.success("Logged in successfully!", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+
+                // Store data in localStorage
+                localStorage.setItem("token", response.data.token);
+                localStorage.setItem(
+                    "userData",
+                    JSON.stringify(response.data.userData)
+                );
+
+                // Redirect to home page
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 1500);
             }
         } catch (error) {
-            // Error handling
-            toast.error(error.response?.data?.message || 'Something went wrong');
+            // Toast message for invalid login credentials
+            toast.error(error.response?.data?.message || "Invalid email or password!", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
         }
     };
 
     return (
-        <div className="login-container">
-            <div className="login-image"></div>
-            <div className="login-form-container">
-                <h1 className="login-title">Luxestay</h1>
-                <p className="login-subtitle">Nice to see you again!</p>
-
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="email">Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Email Address"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                        {emailError && <p className="text-danger">{emailError}</p>}
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                        {passwordError && <p className="text-danger">{passwordError}</p>}
-                    </div>
-
-                    <div className="form-actions">
-                        <div className="remember-me">
-                            <input type="checkbox" id="remember" />
-                            <label htmlFor="remember">Remember me</label>
+        <>
+            <div>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "88vh",
+                        backgroundColor: "#FFFFFFFF",
+                        padding: "5% 0", // Reduce top and bottom margins
+                    }}
+                >
+                    <div
+                        style={{
+                            display: "flex",
+                            width: "80%",
+                            maxWidth: "900px",
+                            backgroundColor: "#13361C",
+                            borderRadius: "12px",
+                            overflow: "hidden",
+                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                        }}
+                    >
+                        {/* Left Image Section */}
+                        <div
+                            style={{
+                                flex: "1",
+                                overflow: "hidden",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                padding: "20px", // Add padding
+                            }}
+                        >
+                            <img
+                                src="/assets/images/image1.avif"
+                                alt="Login"
+                                style={{
+                                    width: "100%",
+                                    height: "500",
+                                    objectFit: "cover",
+                                    borderRadius: "10px",
+                                }}
+                            />
                         </div>
-                        <a href="/forgot-password" className="forgot-password">Forget password?</a>
+
+                        {/* Right Form Section */}
+                        <div
+                            style={{
+                                flex: "1",
+                                backgroundColor: "#13361C",
+                                color: "#FFFFFF",
+                                padding: "40px",
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    marginBottom: "20px",
+                                }}
+                            >
+                                <img
+                                    src="/assets/icons/luxe.png"
+                                    alt="Luxestay Logo"
+                                    style={{ width: "100px", marginRight: "10px" }}
+                                />
+
+                                <h1 style={{ fontSize: "40px", fontWeight: "bold", fontFamily: "Roberto slab", color: "#CC9A48" }}>Luxestay</h1>
+                            </div>
+                            <p style={{ marginTop: "10px", fontSize: "18px" }}>
+                                Nice to see you again!
+                            </p>
+
+                            <form onSubmit={handleSubmit}>
+                                <div style={{ marginBottom: "20px" }}>
+                                    <label
+                                        htmlFor="email"
+                                        style={{ display: "block", marginBottom: "5px", color: "#FFFFFFFF" }}
+                                    >
+                                        Login
+                                    </label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        placeholder="Enter your email or username"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        style={{
+                                            width: "100%",
+                                            padding: "10px",
+                                            borderRadius: "5px",
+                                            border: "1px solid #ccc",
+                                        }}
+                                    />
+                                    {emailError && (
+                                        <p style={{ color: "red", fontSize: "12px" }}>{emailError}</p>
+                                    )}
+                                </div>
+
+                                <div style={{ marginBottom: "20px" }}>
+                                    <label
+                                        htmlFor="password"
+                                        style={{ display: "block", marginBottom: "5px", color: "#FFFFFFFF" }}
+                                    >
+                                        Password
+                                    </label>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        placeholder="Enter your password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        style={{
+                                            width: "100%",
+                                            padding: "10px",
+                                            borderRadius: "5px",
+                                            border: "1px solid #ccc",
+                                        }}
+                                    />
+                                    {passwordError && (
+                                        <p style={{ color: "red", fontSize: "12px" }}>
+                                            {passwordError}
+                                        </p>
+                                    )}
+                                </div>
+
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
+                                        marginBottom: "20px",
+                                    }}
+                                >
+                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                        <input
+                                            type="checkbox"
+                                            id="remember"
+                                            style={{ marginRight: "5px" }}
+                                        />
+                                        <label htmlFor="remember" style={{ fontSize: "14px", color: "#FFFFFFFF" }}>
+                                            Remember me
+                                        </label>
+                                    </div>
+                                    <a
+                                        href="/forgot-password"
+                                        style={{
+                                            fontSize: "14px",
+                                            color: "#CC9A48",
+                                            textDecoration: "none",
+                                        }}
+                                    >
+                                        Forgot password?
+                                    </a>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    style={{
+                                        backgroundColor: "#CC9A48",
+                                        color: "white",
+                                        padding: "10px 20px",
+                                        border: "none",
+                                        borderRadius: "5px",
+                                        cursor: "pointer",
+                                        width: "100%",
+                                        fontWeight: "bold",
+                                        fontSize: "16px",
+                                    }}
+                                >
+                                    Login
+                                </button>
+                            </form>
+
+                            <p style={{ marginTop: "20px", fontSize: "14px" }}>
+                                Don't have an account?{" "}
+                                <a
+                                    href="/register"
+                                    style={{
+                                        color: "#CC9A48",
+                                        textDecoration: "none",
+                                        fontWeight: "bold",
+                                    }}
+                                >
+                                    Sign Up
+                                </a>
+                            </p>
+                        </div>
                     </div>
-
-                    <button type="submit" className="login-button">Login</button>
-                </form>
-
-                <p className="signup-text">
-                    Don't have an account? <a href="/register" className="signup-link">Sign Up</a>
-                </p>
+                </div>
+                <Footer />
             </div>
-        </div>
+        </>
     );
 };
 

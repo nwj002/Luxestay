@@ -70,6 +70,7 @@ import {
   BrowserRouter as Router,
   Routes
 } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import AdminBookingList from "./booking/AdminBookingList ";
 import Bookingdetail from "./booking/Bookingdetail";
 import EditBookingPage from "./booking/EditBookingPage ";
@@ -105,6 +106,8 @@ function App() {
         <Route path="/admin/bookings" element={<AdminBookingList />} />
         <Route path="/admin/booking/edit/:id" element={<EditBookingPage />} />
       </Routes>
+      <ToastContainer />
+
     </Router>
   );
 

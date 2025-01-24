@@ -81,9 +81,21 @@ const Navbar = () => {
     const [showLogoutModal, setShowLogoutModal] = useState(false);
 
     const handleLogout = () => {
-        localStorage.removeItem("userData");
-        window.location.href = "/login"; // Redirect to login page
+        // Clear localStorage and sessionStorage completely
+        localStorage.clear();
+        sessionStorage.clear();
+
+        // Optionally clear cookies (if tokens are stored as cookies)
+        document.cookie.split(";").forEach((cookie) => {
+            document.cookie = cookie
+                .replace(/^ +/, "")
+                .replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`);
+        });
+
+        // Redirect to the login page
+        window.location.href = "/login";
     };
+
 
     const toggleDropdown = () => {
         setShowDropdown((prev) => !prev);
