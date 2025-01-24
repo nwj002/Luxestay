@@ -1,16 +1,20 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { User } = require('../models/models');
+const User = require('../models/userModel');
 const nodemailer = require('nodemailer');
-
-// Register User
 exports.register = async (req, res) => {
     const { name, email, password, phone } = req.body;
 
     try {
+        if (!name || !email || !password || !phone) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        console.log("Checking for existing user...");
         const existingUser = await User.findOne({ email });
+
         if (existingUser) {
-            return res.status(400).json({ message: 'User already exists' });
+            return res.status(400).json({ message: "User already exists" });
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -24,9 +28,10 @@ exports.register = async (req, res) => {
 
         await newUser.save();
 
-        res.status(201).json({ message: 'User registered successfully', user: newUser });
+        res.status(201).json({ message: "User registered successfully", user: newUser });
     } catch (error) {
-        res.status(500).json({ message: 'Something went wrong', error });
+        console.error("Error during registration:", error);
+        res.status(500).json({ message: "Something went wrong", error: error.message });
     }
 };
 
@@ -34,6 +39,7 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     const { email, password } = req.body;
+    console.log(req.body);
 
     try {
         const user = await User.findOne({ email });
@@ -50,7 +56,10 @@ exports.login = async (req, res) => {
             expiresIn: '1d',
         });
 
-        res.status(200).json({ message: 'Login successful', token, user });
+        res.status(200).json({
+            message: 'Login successful', "token": token,
+            "userData": user
+        });
     } catch (error) {
         res.status(500).json({ message: 'Something went wrong', error });
     }
@@ -224,3 +233,22 @@ exports.resetPassword = async (req, res) => {
         });
     }
 }
+
+// Delete User Profile
+exports.deleteUserProfile = async (req, res) => {
+    try {
+        // Find the user by ID from the request
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Delete the user
+        await user.deleteOne();
+
+        res.status(200).json({ message: "User profile deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        res.status(500).json({ message: "Failed to delete user profile", error: error.message });
+    }
+};

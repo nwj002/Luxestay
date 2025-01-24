@@ -2,41 +2,33 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const path = require("path");
 const connectDatabase = require('./database/database');
 
 dotenv.config();
 
-// const connectDB = async () => {
-//     try {
-//         const mongoURI = process.env.MONGODB_CLOUD; // Use local database
-//         await mongoose.connect(mongoURI, {
-//             useNewUrlParser: true,
-//             useUnifiedTopology: true,
-//         });
-//         console.log('MongoDB connected successfully');
-//     } catch (error) {
-//         console.error('Error connecting to MongoDB:', error.message);
-//         process.exit(1);
-//     }
-// };
 
 connectDatabase();
+const corsOptions = {
+    origin: true,
+    credentials: true,
+    optionSuccessStatus: 200,
 
+}
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
-app.set('view engine', 'ejs');
-app.use(express.urlencoded({ extended: false }));
+const fileUpload = require("express-fileupload");
+app.use("/rooms", express.static(path.join(__dirname, "public/rooms")));
+// Enable file upload middleware
+app.use(fileUpload());
 
 
-// routes
+// routesgit
 app.use('/api/users', require('./routes/userRoutes')); // User-related routes
-app.use('/api/hotels', require('./routes/hotelRoutes')); // Hotel-related routes
-app.use('/api/rooms', require('./routes/hotelRoutes')); // Room-related routes
-app.use('/api/bookings', require('./routes/bookingRoutes')); // Booking-related routes
-app.use('/api/reviews', require('./routes/reviewRoutes')); // Review-related routes
-app.use('/api/payments', require('./routes/paymentRoutes')); // Payment-related routes
+app.use('/api/room', require('./routes/roomRoutes'));
+app.use("/api/booking", require("./routes/bookingRoute"));
 
 
 const PORT = process.env.PORT || 5000;

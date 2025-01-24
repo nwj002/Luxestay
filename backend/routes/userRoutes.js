@@ -16,5 +16,7 @@ router.post('/forgot-password', userController.forgotPassword);
 //reset password
 router.post('/reset-password', userController.resetPassword);
 
+router.delete("/profile/delete", authGuard, userController.deleteUserProfile);
+
 
 module.exports = router;

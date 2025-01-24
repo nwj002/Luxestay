@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const connectDatabase = () => {
-    mongoose.connect(process.env.MONGODB_CLOUD, {
+    mongoose.connect(process.env.MONGODB_CLOUD || process.env.MONGODB_LOCAL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
@@ -10,9 +10,8 @@ const connectDatabase = () => {
         })
         .catch((error) => {
             console.error('Database connection failed:', error.message);
-            process.exit(1); // Exit the application on connection failure
+            process.exit(1);
         });
 };
 
-// Exporting the function
 module.exports = connectDatabase;
