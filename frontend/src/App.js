@@ -75,6 +75,7 @@ import AdminBookingList from "./booking/AdminBookingList ";
 import Bookingdetail from "./booking/Bookingdetail";
 import EditBookingPage from "./booking/EditBookingPage ";
 import Navbar from "./components/Navbar";
+import ForgetPassword from "./Forgetpassword/ForgetPassword";
 import Homepage from "./homepage/Homepage";
 import AddHotel from "./Hotels/AddRoom";
 import ShowRooms from "./Hotels/ShowRooms";
@@ -96,6 +97,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="forgetpassword" element={<ForgetPassword />} />
         <Route path="/hotel" element={<AddHotel />} />
         <Route path="/room" element={<RoomPage />} />
         <Route path="/rooms" element={<ShowRooms />} />

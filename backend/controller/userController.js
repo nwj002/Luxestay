@@ -131,13 +131,9 @@ exports.verifyAccount = async (req, res) => {
 // forget password sent mail throung nodemailer
 exports.forgotPassword = async (req, res) => {
     const { email } = req.body;
-    console.log(email);
 
     try {
-        const user = await User.findOne({
-            email,
-        });
-        // console.log(user);
+        const user = await User.findOne({ email });
 
         if (!user) {
             return res.status(404).json({
@@ -146,20 +142,18 @@ exports.forgotPassword = async (req, res) => {
             });
         }
 
-        const otp = Math.floor(100000 + Math.random() * 900000);
+        const otp = Math.floor(100000 + Math.random() * 900000).toString(); // Ensure OTP is a string
         user.resetPasswordOTP = otp;
         user.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // OTP valid for 10 minutes
 
         await user.save();
 
-        // Send OTP to user's email (email service integration needed) through node mailer
-        var transporter = nodemailer.createTransport({
+        // Send OTP via nodemailer
+        const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: 'nwj.shrestha@gmail.com',
-                pass: 'kcazmnuxtxeexnrx',
-
-                // kcaz mnux txee xnrx
+                user: "nwj.shrestha@gmail.com",
+                pass: "kcazmnuxtxeexnrx",
             },
         });
 
@@ -173,43 +167,44 @@ exports.forgotPassword = async (req, res) => {
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log("Error sending email:", error);
+                return res.status(500).json({
+                    success: false,
+                    message: "Failed to send OTP. Please try again.",
+                });
             } else {
                 console.log("Email sent:", info.response);
             }
-        }
-        );
+        });
 
         res.status(200).json({
             success: true,
             message: "OTP sent successfully",
+            otp, // Optional: Remove in production for security
         });
-    }
-    catch (error) {
+    } catch (error) {
+        console.error(error);
         res.status(500).json({
             success: false,
-            message: "Something went wrong",
-            error,
+            message: "Something went wrong. Please try again later.",
         });
     }
-}
-
+};
 
 // Reset Passwordaccording to the otp
 exports.resetPassword = async (req, res) => {
     const { email, otp, newPassword } = req.body;
 
     try {
-        const user
-            = await User.findOne({
-                email,
-                resetPasswordOTP: otp,
-                resetPasswordExpires: { $gt: Date.now() },
-            });
+        const user = await User.findOne({
+            email,
+            resetPasswordOTP: otp.toString(), // Compare as string
+            resetPasswordExpires: { $gt: Date.now() }, // Ensure OTP is not expired
+        });
 
         if (!user) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid OTP or OTP expired",
+                message: "Invalid OTP or OTP has expired. Please try again.",
             });
         }
 
@@ -223,16 +218,15 @@ exports.resetPassword = async (req, res) => {
             success: true,
             message: "Password reset successfully",
         });
-
     } catch (error) {
-
+        console.error(error);
         res.status(500).json({
             success: false,
-            message: "Something went wrong",
-            error,
+            message: "Something went wrong. Please try again later.",
         });
     }
-}
+};
+
 
 // Delete User Profile
 exports.deleteUserProfile = async (req, res) => {

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "../components/Footer";
+import ForgetPassword from "../Forgetpassword/ForgetPassword";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -76,6 +77,12 @@ const Login = () => {
                 draggable: true,
             });
         }
+    };
+
+    const [showOverlay, setShowOverlay] = useState(false);
+
+    const handleOverlayClose = () => {
+        setShowOverlay(false);
     };
 
     return (
@@ -228,7 +235,8 @@ const Login = () => {
                                         </label>
                                     </div>
                                     <a
-                                        href="/forgot-password"
+                                        // href="/forgetpassword"
+                                        onClick={() => setShowOverlay(true)}
                                         style={{
                                             fontSize: "14px",
                                             color: "#CC9A48",
@@ -237,6 +245,8 @@ const Login = () => {
                                     >
                                         Forgot password?
                                     </a>
+                                    {showOverlay && <ForgetPassword onClose={handleOverlayClose} />}
+
                                 </div>
 
                                 <button
