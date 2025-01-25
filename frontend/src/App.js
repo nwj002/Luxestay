@@ -94,17 +94,17 @@ function App() {
       <Navbar />
 
       <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="forgetpassword" element={<ForgetPassword />} />
+        <Route path="/" element={<Homepage />} /> {/* Homepage */}
+        <Route path="/login" element={<Login />} /> {/* Login */}
+        <Route path="/register" element={<Register />} /> {/* Register */}
+        <Route path="forgetpassword" element={<ForgetPassword />} /> {/* Forget Password */}
         <Route path="/hotel" element={<AddHotel />} />
         <Route path="/room" element={<RoomPage />} />
         <Route path="/rooms" element={<ShowRooms />} />
         <Route path="/room/:id" element={<ViewRoom />} />
-        <Route path="profile" element={<Profile />} />
+        <Route path="profile" element={<Profile />} />  {/* Profile */}
         <Route path="/room/update-delete/:id" element={<UpdateDeleteRoom />} />
-        <Route path="/bookings" element={<Bookingdetail />} />
+        <Route path="/bookings" element={<Bookingdetail />} /> {/* Booking */}
         <Route path="/admin/bookings" element={<AdminBookingList />} />
         <Route path="/admin/booking/edit/:id" element={<EditBookingPage />} />
       </Routes>
