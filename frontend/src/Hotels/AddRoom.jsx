@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Footer from "../components/Footer";
 
@@ -25,23 +26,21 @@ const AddRoom = () => {
         setImage(e.target.files[0]);
     };
 
+    const handleReset = () => {
+        setFormData({
+            roomName: "",
+            hotelName: "",
+            price: "",
+            location: "",
+            description: "",
+            noOfBeds: "",
+        });
+        setImage(null);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-
-        // Validation
-        if (
-            !formData.roomName ||
-            !formData.hotelName ||
-            !formData.price ||
-            !formData.location ||
-            !formData.description ||
-            !formData.noOfBeds
-        ) {
-            toast.error("Please fill all the fields");
-            setLoading(false);
-            return;
-        }
 
         if (!image) {
             toast.error("Please upload an image");
@@ -50,18 +49,8 @@ const AddRoom = () => {
         }
 
         const formDataToSend = new FormData();
-        formDataToSend.append("roomName", formData.roomName);
-        formDataToSend.append("hotelName", formData.hotelName);
-        formDataToSend.append("price", formData.price);
-        formDataToSend.append("location", formData.location);
-        formDataToSend.append("description", formData.description);
-        formDataToSend.append("noOfBeds", formData.noOfBeds);
+        Object.keys(formData).forEach((key) => formDataToSend.append(key, formData[key]));
         formDataToSend.append("image", image);
-
-        // Debug FormData
-        for (let [key, value] of formDataToSend.entries()) {
-            console.log(`${key}: ${value}`);
-        }
 
         try {
             const response = await axios.post("http://localhost:5000/api/room/create", formDataToSend, {
@@ -72,44 +61,73 @@ const AddRoom = () => {
 
             if (response.status === 201) {
                 toast.success("Room created successfully!");
-                setFormData({
-                    roomName: "",
-                    hotelName: "",
-                    price: "",
-                    location: "",
-                    description: "",
-                    noOfBeds: "",
-                });
-                setImage(null);
+                handleReset();
             }
         } catch (error) {
-            console.error("Error:", error.response?.data || error.message);
             toast.error(error.response?.data?.message || "Failed to create room");
         } finally {
             setLoading(false);
         }
     };
 
-
-
-
     const styles = {
         container: {
+            display: "flex",
+            minHeight: "100vh",
+            backgroundColor: "#FFF2E5",
+        },
+        sidebar: {
+            width: "250px",
+            backgroundColor: "#13361C",
+            color: "#FFFFFF",
+            padding: "20px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+        },
+        sidebarLink: {
+            textDecoration: "none",
+            color: "#FFFFFF",
+            margin: "10px 0",
+            padding: "10px 20px",
+            borderRadius: "5px",
+            textAlign: "center",
+            width: "100%",
+            backgroundColor: "#CC9A48",
+            fontWeight: "bold",
+            cursor: "pointer",
+        },
+        sidebarLinkActive: {
+            backgroundColor: "#FFFFFF",
+            color: "#13361C",
+        },
+        mainContent: {
+            flex: 1,
+            padding: "20px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+        },
+        formContainer: {
             width: "100%",
             maxWidth: "500px",
-            margin: "0 auto",
+            backgroundColor: "#FFFFFF",
             padding: "20px",
-            border: "1px solid #ddd",
-            borderRadius: "10px",
-            backgroundColor: "#f9f9f9",
+            borderRadius: "12px",
             boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+        },
+        heading: {
+            marginBottom: "20px",
+            fontSize: "24px",
+            fontWeight: "bold",
+            color: "#13361C",
             textAlign: "center",
         },
         input: {
             width: "100%",
             padding: "10px",
             margin: "10px 0",
-            border: "1px solid #ddd",
+            border: "1px solid #ccc",
             borderRadius: "5px",
             fontSize: "16px",
         },
@@ -117,97 +135,144 @@ const AddRoom = () => {
             width: "100%",
             padding: "10px",
             margin: "10px 0",
-            border: "1px solid #ddd",
+            border: "1px solid #ccc",
             borderRadius: "5px",
             fontSize: "16px",
             resize: "none",
         },
+        buttonContainer: {
+            display: "flex",
+            justifyContent: "space-between",
+        },
         button: {
-            width: "100%",
+            flex: 1,
             padding: "10px",
-            backgroundColor: "#007bff",
-            color: "white",
+            fontSize: "16px",
             border: "none",
             borderRadius: "5px",
-            fontSize: "16px",
             cursor: "pointer",
-            marginTop: "10px",
+            margin: "5px",
+        },
+        addButton: {
+            backgroundColor: "#4CAF50",
+            color: "#fff",
+        },
+        resetButton: {
+            backgroundColor: "#f44336",
+            color: "#fff",
+        },
+        tooltip: {
+            fontSize: "12px",
+            color: "#555",
+            textAlign: "left",
         },
     };
 
     return (
         <>
             <div style={styles.container}>
-                <h1>Add Room</h1>
-                <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        name="roomName"
-                        placeholder="Room Type"
-                        value={formData.roomName}
-                        onChange={handleChange}
-                        required
-                        style={styles.input}
-                    />
-                    <input
-                        type="text"
-                        name="hotelName"
-                        placeholder="Hotel Name"
-                        value={formData.hotelName}
-                        onChange={handleChange}
-                        required
-                        style={styles.input}
-                    />
-                    <input
-                        type="number"
-                        name="price"
-                        placeholder="Price"
-                        value={formData.price}
-                        onChange={handleChange}
-                        required
-                        style={styles.input}
-                    />
-                    <input
-                        type="text"
-                        name="location"
-                        placeholder="Location"
-                        value={formData.location}
-                        onChange={handleChange}
-                        required
-                        style={styles.input}
-                    />
-                    <textarea
-                        name="description"
-                        placeholder="Description"
-                        value={formData.description}
-                        onChange={handleChange}
-                        required
-                        style={styles.textarea}
-                    />
-                    <input
-                        type="number"
-                        name="noOfBeds"
-                        placeholder="Number of Beds"
-                        value={formData.noOfBeds}
-                        onChange={handleChange}
-                        required
-                        style={styles.input}
-                    />
-                    <input
-                        type="file"
-                        name="image"
-                        onChange={handleImageChange}
-                        accept="image/*"
-                        required
-                        style={styles.input}
-                    />
-                    <button type="submit" disabled={loading} style={styles.button}>
-                        {loading ? "Adding Room..." : "Add Room"}
-                    </button>
-                </form>
+                {/* Sidebar */}
+                <div style={styles.sidebar}>
+                    <h2>Admin Dashboard</h2>
+                    <Link to="/hotel" style={{ ...styles.sidebarLink, ...styles.sidebarLinkActive }}>
+                        Add Room
+                    </Link>
+                    <Link to="/admin/bookings" style={styles.sidebarLink}>
+                        View Bookings
+                    </Link>
+                    <Link to="/rooms" style={styles.sidebarLink}>
+                        Manage Rooms
+                    </Link>
+                </div>
+
+                {/* Main Content */}
+                <div style={styles.mainContent}>
+                    <div style={styles.formContainer}>
+                        <h1 style={styles.heading}>Add Room</h1>
+                        <form onSubmit={handleSubmit}>
+                            <input
+                                type="text"
+                                name="roomName"
+                                placeholder="Room Type (e.g., Deluxe, Suite)"
+                                value={formData.roomName}
+                                onChange={handleChange}
+                                required
+                                style={styles.input}
+                            />
+                            <input
+                                type="text"
+                                name="hotelName"
+                                placeholder="Hotel Name"
+                                value={formData.hotelName}
+                                onChange={handleChange}
+                                required
+                                style={styles.input}
+                            />
+                            <input
+                                type="number"
+                                name="price"
+                                placeholder="Price (in USD)"
+                                value={formData.price}
+                                onChange={handleChange}
+                                required
+                                style={styles.input}
+                            />
+                            <input
+                                type="text"
+                                name="location"
+                                placeholder="Location (e.g., Kathmandu, Nepal)"
+                                value={formData.location}
+                                onChange={handleChange}
+                                required
+                                style={styles.input}
+                            />
+                            <textarea
+                                name="description"
+                                placeholder="Room Description"
+                                value={formData.description}
+                                onChange={handleChange}
+                                required
+                                style={styles.textarea}
+                            />
+                            <input
+                                type="number"
+                                name="noOfBeds"
+                                placeholder="Number of Beds"
+                                value={formData.noOfBeds}
+                                onChange={handleChange}
+                                required
+                                style={styles.input}
+                            />
+                            <input
+                                type="file"
+                                name="image"
+                                onChange={handleImageChange}
+                                accept="image/*"
+                                required
+                                style={styles.input}
+                            />
+                            <span style={styles.tooltip}>Accepted formats: .jpg, .png, .jpeg</span>
+                            <div style={styles.buttonContainer}>
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    style={{ ...styles.button, ...styles.addButton }}
+                                >
+                                    {loading ? "Adding Room..." : "Add Room"}
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handleReset}
+                                    style={{ ...styles.button, ...styles.resetButton }}
+                                >
+                                    Reset Form
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
             <Footer />
-
         </>
     );
 };

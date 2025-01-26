@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Footer from "../components/Footer";
 
 const AdminRoomTable = () => {
     const [rooms, setRooms] = useState([]);
@@ -249,6 +250,8 @@ const AdminRoomTable = () => {
             </div>
         </div>
     </div>
+        <Footer />
+
     </>
     );
 };

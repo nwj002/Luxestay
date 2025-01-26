@@ -82,7 +82,6 @@ import Profile from "./user/Profile";
 function App() {
   return (
     <Router>
-      {/* Add Navbar here to appear on all pages */}
       <Navbar />
 
       <Routes>
