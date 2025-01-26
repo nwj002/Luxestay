@@ -36,7 +36,6 @@ exports.register = async (req, res) => {
 };
 
 // Login User
-
 exports.login = async (req, res) => {
     const { email, password } = req.body;
     console.log(req.body);
@@ -226,7 +225,6 @@ exports.resetPassword = async (req, res) => {
         });
     }
 };
-
 
 // Delete User Profile
 exports.deleteUserProfile = async (req, res) => {

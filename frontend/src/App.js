@@ -1,4 +1,3 @@
-
 // import {
 //   Route,
 //   BrowserRouter as Router,
@@ -31,8 +30,6 @@
 
 //   return (
 
-
-
 //     <Router>
 
 //       <Routes>
@@ -52,7 +49,6 @@
 //         <Route path="/admin/bookings" element={<AdminBookingList />} />
 //         <Route path="/admin/booking/edit/:id" element={<EditBookingPage />} />
 
-
 //         {/* </Route> */}
 
 //       </Routes>
@@ -65,11 +61,7 @@
 
 // export default App;
 
-import {
-  Route,
-  BrowserRouter as Router,
-  Routes
-} from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import AdminBookingList from "./booking/AdminBookingList ";
 import Bookingdetail from "./booking/Bookingdetail";
@@ -83,36 +75,43 @@ import UpdateDeleteRoom from "./Hotels/UpdateDEleteRoom";
 import RoomPage from "./Hotels/UserRooms";
 import ViewRoom from "./Hotels/ViewRoom";
 import Login from "./login/Login";
+import EsewaResponse from "./paymentGateways/Esewa/EsewaResponse";
 import Register from "./register/Register";
 import Profile from "./user/Profile";
 
 function App() {
-
   return (
     <Router>
       {/* Add Navbar here to appear on all pages */}
       <Navbar />
 
       <Routes>
-        <Route path="/" element={<Homepage />} /> {/* Homepage */}
-        <Route path="/login" element={<Login />} /> {/* Login */}
-        <Route path="/register" element={<Register />} /> {/* Register */}
-        <Route path="forgetpassword" element={<ForgetPassword />} /> {/* Forget Password */}
-        <Route path="/hotel" element={<AddHotel />} />
-        <Route path="/room" element={<RoomPage />} />
-        <Route path="/rooms" element={<ShowRooms />} />
-        <Route path="/room/:id" element={<ViewRoom />} />
-        <Route path="profile" element={<Profile />} />  {/* Profile */}
-        <Route path="/room/update-delete/:id" element={<UpdateDeleteRoom />} />
-        <Route path="/bookings" element={<Bookingdetail />} /> {/* Booking */}
-        <Route path="/admin/bookings" element={<AdminBookingList />} />
-        <Route path="/admin/booking/edit/:id" element={<EditBookingPage />} />
+        <Route path='/' element={<Homepage />} /> {/* Homepage */}
+        <Route path='/login' element={<Login />} /> {/* Login */}
+        <Route path='/register' element={<Register />} /> {/* Register */}
+        <Route path='forgetpassword' element={<ForgetPassword />} />        {/* Forget Password */}
+        <Route path='/room' element={<RoomPage />} />
+        <Route path='/room/:id' element={<ViewRoom />} />
+        <Route path='profile' element={<Profile />} /> {/* Profile */}
+        <Route path='/bookings' element={<Bookingdetail />} /> {/* Booking */}
+
+        <Route path='/esewa/response' element={<EsewaResponse />} />
+
+        <Route path='/hotel' element={<AddHotel />} />
+        <Route path='/rooms' element={<ShowRooms />} />
+        <Route path='/room/update-delete/:id' element={<UpdateDeleteRoom />} />
+        <Route path='/admin/bookings' element={<AdminBookingList />} />
+        <Route path='/admin/booking/edit/:id' element={<EditBookingPage />} />
+
+
+
+
+
+
       </Routes>
       <ToastContainer />
-
     </Router>
   );
-
 }
 
 export default App;

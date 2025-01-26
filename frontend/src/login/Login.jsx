@@ -61,23 +61,33 @@ const Login = () => {
                     JSON.stringify(response.data.userData)
                 );
 
-                // Redirect to home page
+                // Redirect to the appropriate page based on user role
                 setTimeout(() => {
-                    window.location.href = "/";
+                    if (response.data.userData.isAdmin) {
+                        // Redirect to admin home page if user is admin
+                        window.location.href = "/rooms";
+                    } else {
+                        // Redirect to the home page for normal users
+                        window.location.href = "/";
+                    }
                 }, 1500);
             }
         } catch (error) {
             // Toast message for invalid login credentials
-            toast.error(error.response?.data?.message || "Invalid email or password!", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
+            toast.error(
+                error.response?.data?.message || "Invalid email or password!",
+                {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                }
+            );
         }
     };
+
 
     const [showOverlay, setShowOverlay] = useState(false);
 
