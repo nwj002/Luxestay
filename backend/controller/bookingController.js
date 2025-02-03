@@ -7,7 +7,7 @@ exports.createBooking = async (req, res) => {
         const { roomId, checkInDate, duration, guests, paymentType } = req.body;
 
         // Validate paymentType
-        if (!["Khalti", "Cash", "Esewa"].includes(paymentType)) {
+        if (!["Cash", "Esewa"].includes(paymentType)) {
             return res.status(400).json({ message: "Invalid payment type" });
         }
 

@@ -63,6 +63,7 @@
 
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import Aboutus from "./Aboutus/Aboutus";
 import AdminBookingList from "./booking/AdminBookingList ";
 import Bookingdetail from "./booking/Bookingdetail";
 import EditBookingPage from "./booking/EditBookingPage ";
@@ -75,6 +76,8 @@ import UpdateDeleteRoom from "./Hotels/UpdateDEleteRoom";
 import RoomPage from "./Hotels/UserRooms";
 import ViewRoom from "./Hotels/ViewRoom";
 import Login from "./login/Login";
+import HelpCenter from "./others/HelpCenter";
+import PrivacyPolicy from "./others/PrivacyPolicy ";
 import EsewaResponse from "./paymentGateways/Esewa/EsewaResponse";
 import Register from "./register/Register";
 import Profile from "./user/Profile";
@@ -93,7 +96,10 @@ function App() {
         <Route path='/room/:id' element={<ViewRoom />} />
         <Route path='profile' element={<Profile />} /> {/* Profile */}
         <Route path='/bookings' element={<Bookingdetail />} /> {/* Booking */}
+        <Route path='/aboutus' element={<Aboutus />} />
 
+        <Route path='/privacypolicy' element={<PrivacyPolicy />} />
+        <Route path='/help' element={<HelpCenter />} />
         <Route path='/esewa/response' element={<EsewaResponse />} />
 
         <Route path='/hotel' element={<AddHotel />} />

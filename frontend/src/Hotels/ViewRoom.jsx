@@ -39,6 +39,11 @@ const ViewRoom = () => {
 
     fetchRoomDetails();
   }, [id]);
+  // Load reviews from localStorage
+  useEffect(() => {
+    const storedReviews = JSON.parse(localStorage.getItem(`reviews-${id}`)) || [];
+    setReviews(storedReviews);
+  }, [id]);
 
   const handleDurationChange = (e) => setDuration(Math.max(1, e.target.value));
   const handleGuestsChange = (e) => setGuests(Math.max(1, e.target.value));
@@ -52,11 +57,20 @@ const ViewRoom = () => {
     setShowModal(true);
   };
 
+  // Submit and store review in localStorage
   const submitReview = () => {
+    if (review.trim() === "") {
+      toast.error("Review cannot be empty.");
+      return;
+    }
+
     const newReview = { rating, review };
     const updatedReviews = [...reviews, newReview];
+
+    // Save reviews in localStorage
+    localStorage.setItem(`reviews-${id}`, JSON.stringify(updatedReviews));
     setReviews(updatedReviews);
-    localStorage.setItem("reviews", JSON.stringify(updatedReviews));
+
     setShowReviewOverlay(false);
     setRating(0);
     setReview("");
@@ -173,36 +187,24 @@ const ViewRoom = () => {
 
 
           {/* Review and Rating Container */}
-          <div
-            style={{
-              backgroundColor: "#FFF9F5",
-              padding: "20px",
-              borderRadius: "8px",
-            }}
-          >
-            <h3 style={{ marginBottom: "10px" }}>Review and Rating</h3>
+          {/* Review and Rating Container */}
+          <div style={{ backgroundColor: "#FFF9F5", padding: "20px", borderRadius: "8px" }}>
+            <h3>Review and Rating</h3>
             {reviews.map((r, index) => (
               <div key={index}>
-                <p>
-                  <strong>User:</strong> "{r.review}"
-                </p>
+                <p><strong>User:</strong> "{r.review}"</p>
                 <p>Rating: {r.rating}/5</p>
               </div>
             ))}
             <button
               onClick={() => setShowReviewOverlay(true)}
-              style={{
-                backgroundColor: "#CC9A48",
-                color: "#FFF",
-                border: "none",
-                padding: "10px",
-                borderRadius: "8px",
-              }}
+              style={{ backgroundColor: "#CC9A48", color: "#FFF", border: "none", padding: "10px", borderRadius: "8px" }}
             >
               Write a Review
             </button>
           </div>
         </div>
+
         {/* </div> */}
         {/* </div> */}
 
@@ -354,7 +356,7 @@ const ViewRoom = () => {
               }}
             >
               {/* Khalti Button */}
-              <button
+              {/* <button
                 onClick={() => setPaymentType("Khalti")}
                 style={{
                   backgroundColor: "#FFF",
@@ -373,7 +375,7 @@ const ViewRoom = () => {
                   alt="Khalti"
                   style={{ width: "40px", height: "40px" }}
                 />
-              </button>
+              </button> */}
 
               {/* Esewa Button */}
               <div

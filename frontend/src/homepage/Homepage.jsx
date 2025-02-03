@@ -6,32 +6,32 @@ import RoomCard from '../components/RoomCard';
 
 const Homepage = () => {
     const [adults, setAdults] = useState(1);
-    const [children, setChildren] = useState(0);
+    // const [children, setChildren] = useState(0);
 
     const [formData, setFormData] = useState({
-        location: '',
-        checkin: new Date().toISOString().split('T')[0], // Default to today's date
-        duration: 1, // Default to 1 day
+        checkin: "",
+        checkout: "",
+        duration: 1,
     });
+    const today = new Date().toISOString().split("T")[0];
+
 
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
     const incrementAdults = () => setAdults(adults + 1);
-    const decrementAdults = () => setAdults(adults > 0 ? adults - 1 : 0);
+    const decrementAdults = () => setAdults(adults > 1 ? adults - 1 : 1);
 
-    const incrementChildren = () => setChildren(children + 1);
-    const decrementChildren = () => setChildren(children > 0 ? children - 1 : 0);
+    // const incrementChildren = () => setChildren(children + 1);
+    // const decrementChildren = () => setChildren(children > 0 ? children - 1 : 0);
 
     const [rooms, setRooms] = useState([]);
-
-
 
     useEffect(() => {
         const fetchRooms = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/room/get_all_rooms');
-                setRooms(response.data.data); // Assuming backend returns a "data" array
+                setRooms(response.data.data);
             } catch (error) {
                 console.error('Error fetching rooms:', error);
             }
@@ -42,15 +42,20 @@ const Homepage = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        if (name === "duration") {
+            const newValue = Math.max(1, value); // Duration cannot be less than 1
+            setFormData({ ...formData, [name]: newValue });
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
     };
 
     const handleSearch = (e) => {
         e.preventDefault();
 
         const newErrors = {};
-        if (!formData.location) {
-            newErrors.location = 'Location is required';
+        if (!formData.checkout) {
+            newErrors.checkout = 'check-out date is required';
         }
         if (!formData.checkin) {
             newErrors.checkin = 'Check-in date is required';
@@ -63,13 +68,13 @@ const Homepage = () => {
 
         if (Object.keys(newErrors).length === 0) {
             navigate(
-                `/room?location=${formData.location}&checkin=${formData.checkin}&duration=${formData.duration}&guests=${adults + children}`
+                `/room?location=${formData.location}&checkin=${formData.checkin}&duration=${formData.duration}&guests=${adults}`
             );
         }
     };
 
     const [currentPage, setCurrentPage] = useState(1);
-    const roomsPerPage = 4; // Only 4 rooms per page
+    const roomsPerPage = 4;
 
     const handleNextPage = () => {
         if (currentPage < Math.ceil(rooms.length / roomsPerPage)) {
@@ -82,8 +87,6 @@ const Homepage = () => {
             setCurrentPage((prev) => prev - 1);
         }
     };
-
-
 
     return (
         <>
@@ -146,7 +149,7 @@ const Homepage = () => {
                                 experience the best of hospitality.
                             </p>
                             <button
-                                onClick={() => navigate('/about')}
+                                onClick={() => navigate('/aboutus')}
                                 style={{
                                     backgroundColor: '#CC9A48',
                                     color: 'white',
@@ -261,7 +264,7 @@ const Homepage = () => {
                                 Find Hotel
                             </h3>
                             <form>
-                                <div className="form-group" style={{ marginBottom: '15px' }}>
+                                {/* <div className="form-group" style={{ marginBottom: '15px' }}>
                                     <label
                                         htmlFor="location"
                                         style={{
@@ -293,7 +296,7 @@ const Homepage = () => {
                                     {errors.location && (
                                         <span style={{ color: 'red', fontSize: '10px' }}>{errors.location}</span>
                                     )}
-                                </div>
+                                </div> */}
 
                                 <div className="form-group" style={{ marginBottom: '15px' }}>
                                     <label
@@ -314,6 +317,7 @@ const Homepage = () => {
                                         id="checkin"
                                         name="checkin"
                                         value={formData.checkin}
+                                        min={today}
                                         onChange={handleChange}
                                         style={{
                                             width: '100%',
@@ -322,6 +326,44 @@ const Homepage = () => {
                                             border: '1px solid #ccc',
                                         }}
                                     />
+                                    {errors.checkin && (
+                                        <span style={{ color: 'red', fontSize: '10px' }}>{errors.checkin}</span>
+                                    )}
+                                </div>
+
+                                <div
+                                    className="form-group"
+                                    style={{ marginBottom: "15px" }}
+                                >
+                                    <label
+                                        htmlFor="checkout"
+                                        style={{
+                                            fontSize: "16px",
+                                            fontWeight: "500",
+                                            marginBottom: "5px",
+                                            color: "#FFFFFFFF",
+                                            display: "block",
+                                        }}
+                                    >
+                                        Check-out
+                                    </label>
+                                    <input
+                                        type="date"
+                                        id="checkout"
+                                        name="checkout"
+                                        value={formData.checkout}
+                                        onChange={handleChange}
+                                        min={today}
+                                        style={{
+                                            width: "100%",
+                                            padding: "10px",
+                                            borderRadius: "5px",
+                                            border: "1px solid #ccc",
+                                        }}
+                                    />
+                                    {errors.checkout && (
+                                        <span style={{ color: 'red', fontSize: '10px' }}>{errors.checkout}</span>
+                                    )}
                                 </div>
 
                                 <div className="form-group" style={{ marginBottom: '15px' }}>
@@ -354,34 +396,28 @@ const Homepage = () => {
                                     />
                                 </div>
 
-                                <div className="form-group" style={{ marginBottom: '15px' }}>
+                                <div className="form-group" style={{ marginBottom: "15px" }}>
                                     <label
-                                        htmlFor="guests"
+                                        htmlFor="checkout"
                                         style={{
-                                            fontSize: '16px',
-                                            fontWeight: '500',
-                                            color: '#FFFFFFFF',
-
-                                            marginBottom: '5px',
-                                            display: 'block',
+                                            fontSize: "16px",
+                                            fontWeight: "500",
+                                            marginBottom: "5px",
+                                            color: "#FFFFFFFF",
+                                            display: "block",
                                         }}
                                     >
                                         Guests
                                     </label>
-                                    <input
-                                        type="number"
-                                        id="guests"
-                                        name="guests"
-                                        value={adults + children}
-                                        onChange={handleChange}
-                                        placeholder="Number of guests"
-                                        style={{
-                                            width: '100%',
-                                            padding: '10px',
-                                            borderRadius: '5px',
-                                            border: '1px solid #ccc',
-                                        }}
-                                    />
+                                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                                        <button type="button" onClick={decrementAdults} disabled={adults <= 0}>
+                                            -
+                                        </button>
+                                        <span>Adults: {adults}</span>
+                                        <button type="button" onClick={incrementAdults}>
+                                            +
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <button

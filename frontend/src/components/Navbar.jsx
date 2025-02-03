@@ -245,7 +245,7 @@ const Navbar = () => {
                                                 My Bookings
                                             </Link>
                                             <Link
-                                                to="/room"
+                                                to="/aboutus"
                                                 style={{
                                                     display: "block",
                                                     padding: "5px",
@@ -253,10 +253,10 @@ const Navbar = () => {
                                                     color: "#FFFFFF",
                                                 }}
                                             >
-                                                Rooms
+                                                About Us
                                             </Link>
                                             <Link
-                                                to="/help-center"
+                                                to="/help"
                                                 style={{
                                                     display: "block",
                                                     padding: "5px",
@@ -267,7 +267,7 @@ const Navbar = () => {
                                                 Help Center
                                             </Link>
                                             <Link
-                                                to="/privacy-policy"
+                                                to="/privacypolicy"
                                                 style={{
                                                     display: "block",
                                                     padding: "5px",
