@@ -487,7 +487,7 @@ const ViewRoom = () => {
                 <p>
                   <strong>Total:</strong> NPR {room.price * duration}
                 </p>
-                <input
+                {/* <input
                   type="text"
                   placeholder="Promo code"
                   style={{
@@ -496,7 +496,7 @@ const ViewRoom = () => {
                     padding: "5px",
                     width: "100%",
                   }}
-                />
+                /> */}
               </div>
             </div>
 
