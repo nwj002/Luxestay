@@ -1,9 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 
 const Aboutus = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     return (
         <>
@@ -123,7 +122,7 @@ const Aboutus = () => {
                             alt="John Smith"
                             style={{ width: "100px", borderRadius: "50%" }}
                         />
-                        <h4 style={{ fontWeight: "bold", marginTop: "10px" }}>John Smith</h4>
+                        <h4 style={{ fontWeight: "bold", marginTop: "10px" }}>John Doe</h4>
                         <p style={{ color: "#777" }}>CEO & Founder</p>
                     </div>
                     <div style={{ width: "250px", padding: "20px", textAlign: "center" }}>
@@ -132,7 +131,7 @@ const Aboutus = () => {
                             alt="Emily Davis"
                             style={{ width: "100px", borderRadius: "50%" }}
                         />
-                        <h4 style={{ fontWeight: "bold", marginTop: "10px" }}>Emily Davis</h4>
+                        <h4 style={{ fontWeight: "bold", marginTop: "10px" }}>Jane Doe</h4>
                         <p style={{ color: "#777" }}>Chief Marketing Officer</p>
                     </div>
                 </div>

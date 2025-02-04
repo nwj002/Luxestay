@@ -420,6 +420,76 @@ const Profile = () => {
                     </div>
                 </div>
             )}
+            {/* Delete Overlay */}
+            {showDeleteOverlay && (
+                <div
+                    style={{
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        zIndex: 1000,
+                    }}
+                >
+                    <div
+                        style={{
+                            backgroundColor: "#FFFFFF",
+                            padding: "20px",
+                            borderRadius: "12px",
+                            textAlign: "center",
+                            width: "400px",
+                        }}
+                    >
+                        <h2>Delete Account</h2>
+                        <p>Type "DELETE" to confirm.</p>
+                        <input
+                            type="text"
+                            value={deleteConfirmation}
+                            onChange={(e) => setDeleteConfirmation(e.target.value)}
+                            style={{
+                                width: "100%",
+                                padding: "10px",
+                                borderRadius: "5px",
+                                border: "1px solid #ccc",
+                                marginBottom: "10px",
+                            }}
+                        />
+                        <div style={{ display: "flex", justifyContent: "space-between" }}>
+                            <button
+                                onClick={handleDelete}
+                                style={{
+                                    backgroundColor: "red",
+                                    color: "#FFFFFF",
+                                    border: "none",
+                                    padding: "10px 20px",
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                }}
+                            >
+                                Confirm
+                            </button>
+                            <button
+                                onClick={() => setShowDeleteOverlay(false)}
+                                style={{
+                                    backgroundColor: "gray",
+                                    color: "#FFFFFF",
+                                    border: "none",
+                                    padding: "10px 20px",
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 };

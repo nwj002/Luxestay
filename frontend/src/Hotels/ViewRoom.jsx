@@ -185,28 +185,82 @@ const ViewRoom = () => {
             </div>
           </div>
 
+          {/* Review and Rating Container */}
+          {/* Review and Rating Section */}
+          <div
+            style={{
+              backgroundColor: "#FFF9F5",
+              padding: "20px",
+              borderRadius: "8px",
+              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <h3 style={{ marginBottom: "20px", fontSize: "22px", fontWeight: "bold", color: "#333" }}>
+              Reviews and Ratings
+            </h3>
 
-          {/* Review and Rating Container */}
-          {/* Review and Rating Container */}
-          <div style={{ backgroundColor: "#FFF9F5", padding: "20px", borderRadius: "8px" }}>
-            <h3>Review and Rating</h3>
-            {reviews.map((r, index) => (
-              <div key={index}>
-                <p><strong>User:</strong> "{r.review}"</p>
-                <p>Rating: {r.rating}/5</p>
-              </div>
-            ))}
+            {reviews.length > 0 ? (
+              reviews.map((r, index) => (
+                <div
+                  key={index}
+                  style={{
+                    border: "1px solid #ddd",
+                    borderRadius: "8px",
+                    padding: "15px",
+                    marginBottom: "15px",
+                    backgroundColor: "#FFFFFF",
+                    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+                  }}
+                >
+                  {/* Rating Stars */}
+                  <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+                    {[...Array(5)].map((_, starIndex) => (
+                      <span
+                        key={starIndex}
+                        style={{
+                          color: starIndex < r.rating ? "#FFD700" : "#ddd",
+                          fontSize: "20px",
+                          marginRight: "5px",
+                        }}
+                      >
+                        ★
+                      </span>
+                    ))}
+                    {/* Date Placeholder */}
+                    <span style={{ marginLeft: "auto", fontSize: "14px", color: "#777" }}>
+                      {new Date().toLocaleDateString()} {/* Display current date */}
+                    </span>
+                  </div>
+
+                  {/* Review Text */}
+                  <p style={{ fontSize: "16px", color: "#555", lineHeight: "1.5" }}>
+                    {r.review}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p style={{ fontSize: "16px", color: "#777" }}>No reviews yet.</p>
+            )}
+
             <button
               onClick={() => setShowReviewOverlay(true)}
-              style={{ backgroundColor: "#CC9A48", color: "#FFF", border: "none", padding: "10px", borderRadius: "8px" }}
+              style={{
+                backgroundColor: "#CC9A48",
+                color: "#FFF",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "8px",
+                fontSize: "16px",
+                fontWeight: "bold",
+                cursor: "pointer",
+                marginTop: "15px",
+              }}
             >
               Write a Review
             </button>
           </div>
-        </div>
 
-        {/* </div> */}
-        {/* </div> */}
+        </div>
 
         {/* Right Section */}
         <div style={{ flex: 1 }}>
